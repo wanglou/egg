@@ -1,6 +1,8 @@
 # example
 
-
+```
+egg.js + egg-mysql
+```
 
 ## QuickStart
 
