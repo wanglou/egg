@@ -5,16 +5,15 @@ const Service = require('egg').Service;
 class HomeService extends Service {
   // 初始化信息
   async initPage(query) {
-    let result = await this.app.mysql.select('user', {
-      where: {loginName: query}
-    })
+    let sql = `select id,loginName,url from user where loginName = "${query}"`;
+    let result = await this.app.mysql.query(sql);
     return result[0];
   }
   // 查询用户
   async getUser(query) {
     let user = []
     if (query.keywords) {
-      let sql = `select * from user where loginName like "%${query.keywords}%" limit ${(query.currentPage - 1) * 10}, 10`;
+      let sql = `select id,loginName from user where loginName like "%${query.keywords}%" limit ${(query.currentPage - 1) * 10}, 10`;
       let data = await this.app.mysql.query(sql);
       if (data) {
         let sql2 = `select * from user where loginName like "%${query.keywords}%"`;
@@ -25,10 +24,8 @@ class HomeService extends Service {
         }
       } else user = []
     } else {
-      let list = await this.app.mysql.select('user', {
-        limit: 10,
-        offset: (query.currentPage - 1) * 10
-      })
+      let sql = `select id,loginName from user limit ${(query.currentPage - 1) * 10}, 10`;
+      let list = await this.app.mysql.query(sql);
       let count = await this.app.mysql.count('user')
       user = {
         totalCount: count,
