@@ -49,6 +49,19 @@ class HomeService extends Service {
   async delArticle (query) {
     let arr = query.ids.split(',')
     const result = await this.app.mysql.delete('article', {id: arr});
+    if (arr.indexOf(',') === -1) {
+      const result2 = await this.app.mysql.get('comment', { articleId: arr });
+      if (result2) {
+        await this.app.mysql.delete('comment', { articleId: arr });
+      }
+    } else {
+      arr.split(',').forEach(async (item) => {
+        const result2 = await this.app.mysql.get('comment', { articleId: item });
+        if (result2) {
+          await this.app.mysql.delete('comment', { articleId: item });
+        }
+      })
+    }
     if (result.affectedRows === 0) {
       return {code: 0, message: '删除失败'}
     } else {
@@ -119,10 +132,15 @@ class HomeService extends Service {
   async delArticleCategory (query) {
     const result = await this.app.mysql.get('article', { categoryId: query.id });
     if (result) {
+      let sql = `select id from article where categoryId = ${query.id}`
+      const result2 = await this.app.mysql.query(sql);
+      result2.forEach(async item => {
+        await this.app.mysql.delete('comment', { articleId: item.id });
+      })
       await this.app.mysql.delete('article', { categoryId: query.id });
     }
     await this.app.mysql.delete('article_category', { id: query.id });
-    return { code: 1, message: '删除成功' }
+    return { code: 1, message: '删除成功',result: result }
   }
 }
  

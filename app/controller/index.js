@@ -20,6 +20,11 @@ class HomeController extends Controller {
     let result = await this.service.index.uploadAvatar(query);
     this.ctx.body = result
   }
+  // 获取首页总数
+  async getCount() {
+    let result = await this.service.index.getCount();
+    this.ctx.body = result
+  }
 }
  
 module.exports = HomeController;

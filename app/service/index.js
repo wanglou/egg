@@ -62,6 +62,25 @@ class HomeService extends Service {
       }
     }
   }
+  // 获取首页总数
+  async getCount() {
+    const article = await this.app.mysql.count('article')
+    const messageWall = await this.app.mysql.count('message')
+    const comment = await this.app.mysql.count('comment')
+    const result = await this.app.mysql.select('count')
+    await this.app.mysql.update('count', {
+      id: 1,
+      count: result[0].count + 1
+    })
+    return { code: 1, message: '成功',
+      result: {
+        article: article,
+        messageWall: messageWall,
+        comment: comment,
+        count: result[0].count + 1
+      }
+    }
+  }
 }
  
 module.exports = HomeService;
