@@ -7,4 +7,6 @@ module.exports = app => {
   router.get('/getIp', logMiddleware, controller.index.getIp);
   router.post('/upload/avatar', logMiddleware, controller.index.uploadAvatar);
   router.get('/index/count', logMiddleware, controller.index.getCount);
+  router.get('/index/article', logMiddleware, controller.index.getArticle);
+  router.get('/index/fiveCount', logMiddleware, controller.index.getFiveCount);
 };

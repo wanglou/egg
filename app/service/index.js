@@ -68,17 +68,68 @@ class HomeService extends Service {
     const messageWall = await this.app.mysql.count('message')
     const comment = await this.app.mysql.count('comment')
     const result = await this.app.mysql.select('count')
-    await this.app.mysql.update('count', {
-      id: 1,
-      count: result[0].count + 1
+    var now = new Date();
+    var year = now.getFullYear();
+    var month = now.getMonth();
+    var day = now.getDate();
+    let has = false
+    let id = ''
+    let count = 0
+    result.forEach(item => {
+      if (item.year === year && item.month === month && item.day === day) {
+        has = true
+        id = item.id
+        count = item.count
+      }
+    })
+    if (has) {
+      await this.app.mysql.update('count', {
+        id: id,
+        count: count + 1
+      })
+    } else {
+      await this.app.mysql.insert('count', {
+        count: 1,
+        year: year,
+        month: month,
+        day: day
+      })
+    }
+    let totalCount = 0
+    const arr = await this.app.mysql.select('count')
+    arr.forEach(item => {
+      totalCount += item.count
     })
     return { code: 1, message: '成功',
       result: {
         article: article,
         messageWall: messageWall,
         comment: comment,
-        count: result[0].count + 1
+        count: totalCount
       }
+    }
+  }
+  // 获取首页文章分类
+  async getArticle() {
+    let category = await this.app.mysql.select('article_category')
+    category = category.map(item => ({...item, value: 0}))
+    let article = await this.app.mysql.select('article')
+    category.forEach(item => {
+      article.forEach(child => {
+        if (item.id === child.categoryId) {
+          item.value++
+        }
+      })
+    })
+    return { code: 1, message: '成功',
+      result: category
+    }
+  }
+  // 获取最近五日访问量
+  async getFiveCount() {
+    let fiveCount = await this.app.mysql.select('count')
+    return { code: 1, message: '成功',
+      result: fiveCount
     }
   }
 }

@@ -25,6 +25,16 @@ class HomeController extends Controller {
     let result = await this.service.index.getCount();
     this.ctx.body = result
   }
+  // 获取首页文章分类
+  async getArticle() {
+    let result = await this.service.index.getArticle();
+    this.ctx.body = result
+  }
+  // 获取首页最近五日访问量
+  async getFiveCount() {
+    let result = await this.service.index.getFiveCount();
+    this.ctx.body = result
+  }
 }
  
 module.exports = HomeController;
