@@ -62,6 +62,23 @@ class HomeService extends Service {
       }
     }
   }
+  // 个人信息
+  async getPerson() {
+    let result = await this.app.mysql.select('person')
+    return { code: 1, message: '成功', result: result[0] }
+  }
+  // 修改个人信息
+  async updatePerson(query) {
+    await this.app.mysql.update('person', {
+      id: 1,
+      name: query.name,
+      email: query.email,
+      qq: query.qq,
+      wechat: query.wechat,
+      github: query.github
+    })
+    return { code: 1, message: '成功' }
+  }
   // 获取首页总数
   async getCount() {
     const article = await this.app.mysql.count('article')
@@ -75,13 +92,11 @@ class HomeService extends Service {
     let has = false
     let id = ''
     let count = 0
-    result.forEach(item => {
-      if (item.year === year && item.month === month && item.day === day) {
-        has = true
-        id = item.id
-        count = item.count
-      }
-    })
+    if (result[result.length - 1].year === year && result[result.length - 1].month === month && result[result.length - 1].day === day) {
+      has = true
+      id = result[result.length - 1].id
+      count = result[result.length - 1].count
+    }
     if (has) {
       await this.app.mysql.update('count', {
         id: id,
