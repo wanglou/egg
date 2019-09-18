@@ -3,6 +3,18 @@
  
 const Service = require('egg').Service;
 class HomeService extends Service {
+  // 前台接口
+  // 查询文章
+  async frontGetArticle () {
+    const result = await this.app.mysql.select('article')
+    return result
+  }
+  // 查询分类
+  async frontArticleCategory () {
+    const result = await this.app.mysql.select('article_category')
+    return result
+  }
+  //////////////////////////////// 后台接口 /////////////////////////////////////////
   // 查询文章
   async getArticle(query) {
     let result = []

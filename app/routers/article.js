@@ -12,4 +12,7 @@ module.exports = app => {
   router.post('/article/category', logMiddleware, controller.article.addArticleCategory);
   router.del('/article/category', logMiddleware, controller.article.delArticleCategory);
   router.get('/category/has/article', logMiddleware, controller.article.categoryHasArticle);
+  // 前台接口
+  router.get('/front/article', controller.article.frontGetArticle);
+  router.get('/front/article/category', controller.article.frontArticleCategory);
 };

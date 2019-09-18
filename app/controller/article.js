@@ -4,6 +4,26 @@
 const Controller = require('egg').Controller;
  
 class HomeController extends Controller {
+  // 前台接口
+  // 查询文章
+  async frontGetArticle() {
+    let data = await this.service.article.frontGetArticle();
+    this.ctx.body = {
+      code: 1,
+      message: 'success',
+      result: data
+    }
+  }
+  // 查询分类
+  async frontArticleCategory() {
+    let data = await this.service.article.frontArticleCategory();
+    this.ctx.body = {
+      code: 1,
+      message: 'success',
+      result: data
+    }
+  }
+  //////////////////////////////// 后台接口 //////////////////////////////////////////
   // 查询文章
   async getArticle() {
     let query = this.ctx.query;
