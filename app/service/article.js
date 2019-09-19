@@ -5,14 +5,30 @@ const Service = require('egg').Service;
 class HomeService extends Service {
   // 前台接口
   // 查询文章
-  async frontGetArticle () {
-    const result = await this.app.mysql.select('article')
+  async frontGetArticle (query) {
+    let result = []
+    if (query.categoryId) {
+      let sql = `select * from article where categoryId = ${query.categoryId}`;
+      result = await this.app.mysql.query(sql)
+    } else {
+      result = await this.app.mysql.select('article')
+    }
     return result
   }
   // 查询分类
   async frontArticleCategory () {
     const result = await this.app.mysql.select('article_category')
     return result
+  }
+  // 文章详情
+  async frontArticleDetail (query) {
+    const result = await this.app.mysql.get('article', {id: query.articleId});
+    await this.app.mysql.update('article', {
+      id: query.articleId,
+      readCount: result.readCount + 1
+    });
+    const result2 = await this.app.mysql.get('article', {id: query.articleId});
+    return result2
   }
   //////////////////////////////// 后台接口 /////////////////////////////////////////
   // 查询文章

@@ -15,4 +15,5 @@ module.exports = app => {
   // 前台接口
   router.get('/front/article', controller.article.frontGetArticle);
   router.get('/front/article/category', controller.article.frontArticleCategory);
+  router.get('/front/article/detail', controller.article.frontArticleDetail);
 };

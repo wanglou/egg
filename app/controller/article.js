@@ -7,7 +7,8 @@ class HomeController extends Controller {
   // 前台接口
   // 查询文章
   async frontGetArticle() {
-    let data = await this.service.article.frontGetArticle();
+    let query = this.ctx.query;
+    let data = await this.service.article.frontGetArticle(query);
     this.ctx.body = {
       code: 1,
       message: 'success',
@@ -17,6 +18,16 @@ class HomeController extends Controller {
   // 查询分类
   async frontArticleCategory() {
     let data = await this.service.article.frontArticleCategory();
+    this.ctx.body = {
+      code: 1,
+      message: 'success',
+      result: data
+    }
+  }
+  // 文章详情
+  async frontArticleDetail() {
+    let query = this.ctx.query;
+    let data = await this.service.article.frontArticleDetail(query);
     this.ctx.body = {
       code: 1,
       message: 'success',
