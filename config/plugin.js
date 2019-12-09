@@ -8,14 +8,18 @@ module.exports = {
   },
   mysql: {
     enable: true,
-    package: 'egg-mysql',
+    package: 'egg-mysql'
   },
   passport: {
     enable: true,
-    package: 'egg-passport',
+    package: 'egg-passport'
   },
   passportLocal: {
     enable: true,
-    package: 'egg-passport-local',
+    package: 'egg-passport-local'
+  },
+  io: {
+    enable: true,
+    package: 'egg-socket.io'
   }
 }

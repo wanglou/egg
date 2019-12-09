@@ -48,7 +48,13 @@ module.exports = appInfo => {
       enable: false,
     }
   };
-
+  config.io = {
+    init: {},
+    namespace: {
+      '/': {
+      }
+    }
+  };
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',

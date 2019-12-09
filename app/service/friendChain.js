@@ -15,6 +15,13 @@ class HomeService extends Service {
     await this.app.mysql.delete('friendChain', { id: query.id });
     return {code: 1, message: '删除成功'}
   }
+  async getWebsocketTest() {
+    const result = await this.app.mysql.select('chat');
+    return { code: 1, message: '查询成功', result: result}
+  }
+  async websocketTest(query) {
+    await this.app.mysql.insert('chat', { content: query.content, type: query.type });
+  }
 }
  
 module.exports = HomeService;
