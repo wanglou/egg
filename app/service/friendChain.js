@@ -20,7 +20,12 @@ class HomeService extends Service {
     return { code: 1, message: '查询成功', result: result}
   }
   async websocketTest(query) {
-    await this.app.mysql.insert('chat', { content: query.content, type: query.type });
+    await this.app.mysql.insert('chat', { 
+      content: query.content,
+      createdName: query.createdName,
+      createdTime: query.createdTime,
+      imgUrl: query.imgUrl
+    });
   }
 }
  
