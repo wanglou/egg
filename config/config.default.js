@@ -17,7 +17,7 @@ module.exports = appInfo => {
     // 单数据库信息配置
     client: {
       // host
-      host: 'localhost',
+      host: '39.105.229.131',
       // 端口号
       port: '3306',
       // 用户名
@@ -31,6 +31,14 @@ module.exports = appInfo => {
     app: true,
     // 是否加载到 agent 上，默认关闭
     agent: false
+  };
+  // 改变启动端口号
+  config.cluster = {
+    listen: {
+      path: '',
+      port: 9002,
+      hostname: '0.0.0.0',
+    }
   };
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_1565945829189_3895';
