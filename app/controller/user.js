@@ -6,7 +6,7 @@ const Controller = require('egg').Controller;
 class HomeController extends Controller {
   async initPage() {
     // 初始化信息
-    let query = this.ctx.session.loginName;
+    let query = this.ctx.query;
     let result = await this.service.user.initPage(query);
     this.ctx.body = {
       code: 1,
@@ -69,6 +69,8 @@ class HomeController extends Controller {
     let result = await this.service.user.login(query);
     if (result) {
       this.ctx.session.loginName = result.loginName
+      console.log(result.loginName)
+      console.log(this.ctx.session)
       this.ctx.body = {
         code: 1,
         message: 'success',

@@ -5,7 +5,7 @@ const Service = require('egg').Service;
 class HomeService extends Service {
   // 初始化信息
   async initPage(query) {
-    let sql = `select id,loginName,url from user where loginName = "${query}"`;
+    let sql = `select id,loginName,url from user where loginName = "${query.loginName}"`;
     let result = await this.app.mysql.query(sql);
     return result[0];
   }
